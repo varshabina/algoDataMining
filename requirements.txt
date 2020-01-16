@@ -23,9 +23,9 @@ jsonschema==3.2.0
 MarkupSafe==1.1.1
 mistune==0.8.4
 mkl-fft
-mkl-random==1.1.0
-mkl-service==2.3.0
-more-itertools==8.0.2
+mkl-random
+mkl-service
+more-itertools
 numpy==1.17.4
 pandas==0.25.3
 pandocfilters==1.4.2
