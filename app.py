@@ -161,8 +161,10 @@ def predict():
             print(values)
 
             analysis = getStats(labels)
+		
+            MAX = max(values) + 4
 
-            return render_template('regression_analysis.html' , labels = labels , values = values , analysis = analysis)
+            return render_template('regression_analysis.html' , labels = labels , values = values , analysis = analysis , MAX = MAX )
         
         else:
 
