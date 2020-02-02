@@ -40,13 +40,13 @@ def ensembles( x_train, x_test, y_train, y_test ):
 
     print("done RBF")
 
-    m = SVR(kernel='poly', epsilon=.1)
-    m.fit(x_train, y_train)
-    predictions = m.predict(x_test)
-    acc = mean_squared_error(y_test,predictions)
-    res.append( ( acc , "SVM-POLY" ) )
+#     m = SVR(kernel='poly', epsilon=.1)
+#     m.fit(x_train, y_train)
+#     predictions = m.predict(x_test)
+#     acc = mean_squared_error(y_test,predictions)
+#     res.append( ( acc , "SVM-POLY" ) )
 
-    print("done POLY")
+#     print("done POLY")
 
 
 
