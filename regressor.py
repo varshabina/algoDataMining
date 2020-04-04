@@ -5,15 +5,20 @@ from sklearn import linear_model
 from sklearn.svm import SVR
 from sklearn.metrics import accuracy_score,mean_squared_error
 
+
+modelPack = {}
+
 def trees( x_train, x_test, y_train, y_test ):
 
     res = []
-    print("hello reg trees")
+
     m = tree.DecisionTreeRegressor()
     m.fit(x_train, y_train)
-    print("fiting")
+
     predictions = m.predict(x_test)
     acc = mean_squared_error(y_test,predictions)
+
+    modelPack['DecisionTreeRegressor'] = m
 
     res.append( ( acc , "DecisionTreeRegressor" ) )
 
@@ -21,6 +26,8 @@ def trees( x_train, x_test, y_train, y_test ):
     m.fit(x_train, y_train)
     predictions = m.predict(x_test)
     acc = mean_squared_error(y_test,predictions)
+
+    modelPack['ExtraTreeRegressor'] = m
 
     res.append( ( acc , "ExtraTreeRegressor" ) )
 
@@ -36,27 +43,27 @@ def ensembles( x_train, x_test, y_train, y_test ):
     m.fit(x_train, y_train)
     predictions = m.predict(x_test)
     acc = mean_squared_error(y_test,predictions)
+
+    modelPack['SVM-RBF'] = m
+
     res.append( ( acc , "SVM-RBF" ) )
 
     print("done RBF")
 
-#     m = SVR(kernel='poly', epsilon=.1)
-#     m.fit(x_train, y_train)
-#     predictions = m.predict(x_test)
-#     acc = mean_squared_error(y_test,predictions)
-#     res.append( ( acc , "SVM-POLY" ) )
-
-#     print("done POLY")
+    m = SVR(kernel='poly', epsilon=.1)
+    m.fit(x_train, y_train)
+    predictions = m.predict(x_test)
+    acc = mean_squared_error(y_test,predictions)
 
 
+    modelPack["SVM-POLY"] = m
 
-    # m = SVR(kernel='linear', epsilon=.1)
-    # m.fit(x_train, y_train)
-    # predictions = m.predict(x_test)
-    # acc = mean_squared_error(y_test,predictions)
-    # res.append( ( acc , "SVM-LINEAR" ) )
+    res.append( ( acc , "SVM-POLY" ) )
 
-    # print("done LINEAR")
+    print("done POLY")
+
+
+
 
 
     return res
@@ -71,6 +78,8 @@ def lines( x_train, x_test, y_train, y_test ):
     predictions = m.predict(x_test)
     acc =mean_squared_error(y_test,predictions)
 
+    modelPack["Ridge"] = m
+
     res.append( ( acc , "Ridge" ) )
 
     m = linear_model.LinearRegression()
@@ -79,6 +88,8 @@ def lines( x_train, x_test, y_train, y_test ):
     print("preds",predictions)
     acc =mean_squared_error(y_test,predictions)
 
+    modelPack["Linear Regression"] = m
+
     res.append( ( acc , "Linear Regression" ) )
 
     m = linear_model.Lasso(alpha=0.1)
@@ -86,12 +97,16 @@ def lines( x_train, x_test, y_train, y_test ):
     predictions = m.predict(x_test)
     acc = mean_squared_error(y_test,predictions)
 
+    modelPack["Lasso"] = m
+
     res.append( ( acc , "Lasso" ) )
 
     m = linear_model.LassoLars(alpha=0.1)
     m.fit(x_train, y_train)
     predictions = m.predict(x_test)
     acc = mean_squared_error(y_test,predictions)
+
+    modelPack["LassoLARs"] = m
 
     res.append( ( acc , "LassoLARs" ) )
     
@@ -105,16 +120,18 @@ def regression( x_train, x_test, y_train, y_test ):
 
     r1 = trees( x_train, x_test, y_train, y_test )
     r2 = lines( x_train, x_test, y_train, y_test )
-#     r3 = ensembles( x_train, x_test, y_train, y_test )
+    # r3 = ensembles( x_train, x_test, y_train, y_test )
 
-    res = r1 + r2
+    res = r1 + r2 
 
     res.sort()
-
     print(res)
+
+    models = {}
 
     for val , name in res[:4]:
         result[name] = val
+        models[name] = modelPack[name]
 
 
-    return result
+    return result , models
